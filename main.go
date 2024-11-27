@@ -58,7 +58,7 @@ func main() {
 	tick := time.Tick(time.Duration(interval) * time.Minute)
 	for range tick {
 		if err := updateSensors(); err != nil {
-			log.Fatal("could not update sensors:", err)
+			log.Print("ERROR: could not update sensors:", err)
 		}
 	}
 }
