@@ -15,7 +15,7 @@ import (
 )
 
 var sensors []Sensor
-var centralPoint = Point{Latitude: 51.3073247102349, Longitude: 5.658016097401846}
+var centralPoint = Point{Latitude: 51.307324, Longitude: 5.658016}
 
 type Sensor struct {
 	ID        string    `json:"sensorID"`
@@ -84,6 +84,7 @@ func updateSensors() error {
 		if err := sendReading(s); err != nil {
 			return err
 		}
+		log.Print("Updated sensor:", s, "DELTA:", latDelta, lonDelta)
 	}
 	return nil
 }
