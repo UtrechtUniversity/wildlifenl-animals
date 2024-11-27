@@ -15,6 +15,7 @@ import (
 )
 
 var sensors []Sensor
+var centralPoint = Point{Latitude: 51.3073247102349, Longitude: 5.658016097401846}
 
 type Sensor struct {
 	ID        string    `json:"sensorID"`
@@ -69,15 +70,15 @@ func createSensors() {
 		if len(number) == 1 {
 			number = "0" + number
 		}
-		sensors = append(sensors, Sensor{ID: "Sim-Sensor-" + number, Timestamp: time.Now(), Location: Point{Latitude: 51.44296, Longitude: 5.47953}})
+		sensors = append(sensors, Sensor{ID: "Sim-Sensor-" + number, Timestamp: time.Now(), Location: centralPoint})
 	}
 }
 
 func updateSensors() error {
 	for _, s := range sensors {
 		s.Timestamp = time.Now()
-		latDelta := (float64(rand.Intn(7)-3) * .00001)
-		lonDelta := (float64(rand.Intn(7)-3) * .00001)
+		latDelta := (float64(rand.Intn(7)-3) * .001)
+		lonDelta := (float64(rand.Intn(7)-3) * .001)
 		s.Location.Latitude = math.Round((s.Location.Latitude+latDelta)*100000) / 100000
 		s.Location.Longitude = math.Round((s.Location.Longitude+lonDelta)*100000) / 100000
 		if err := sendReading(s); err != nil {
