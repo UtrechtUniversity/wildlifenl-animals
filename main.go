@@ -15,7 +15,7 @@ import (
 )
 
 var sensors []Sensor
-var centralPoint = Point{Latitude: 51.307324, Longitude: 5.658016}
+var centralPoint = Point{Latitude: 52.088545, Longitude: 5.171438} // Botanische Tuinen
 
 type Sensor struct {
 	ID        string    `json:"sensorID"`
@@ -44,16 +44,28 @@ func main() {
 		log.Fatal("environment variable BEARER_TOKEN cannot be empty")
 	}
 
-	interval_str := os.Getenv("INTERVAL")
-	if interval_str == "" {
+	intervalValue := os.Getenv("INTERVAL")
+	if intervalValue == "" {
 		log.Fatal("environment variable INTERVAL cannot be empty")
 	}
-	interval, err := strconv.Atoi(interval_str)
+	interval, err := strconv.Atoi(intervalValue)
 	if err != nil {
 		log.Fatal("cannot convert environment variable INTERVAL to integer:", err)
 	}
 
-	createSensors()
+	numberOfSensorsValue := os.Getenv("NUM_SENSORS")
+	if numberOfSensorsValue == "" {
+		log.Fatal("environment variable NUM_SENSORS cannot be empty")
+	}
+	numberOfSensors, err := strconv.Atoi(numberOfSensorsValue)
+	if err != nil {
+		log.Fatal("cannot convert environment variable NUM_SENSORS to integer:", err)
+	}
+	if numberOfSensors < 1 || numberOfSensors > 99 {
+		log.Fatal("Environment variable NUM_SENSORS must be 0 < x < 100.")
+	}
+
+	createSensors(numberOfSensors)
 
 	tick := time.Tick(time.Duration(interval) * time.Minute)
 	for range tick {
@@ -63,11 +75,11 @@ func main() {
 	}
 }
 
-func createSensors() {
+func createSensors(numberOfSensors int) {
 	sensors = make([]Sensor, 0)
-	for i := 1; i <= 25; i++ {
+	for i := 1; i <= numberOfSensors; i++ {
 		number := strconv.Itoa(i)
-		if len(number) == 1 {
+		if i < 10 {
 			number = "0" + number
 		}
 		sensors = append(sensors, Sensor{ID: "Sim-Sensor-" + number, Timestamp: time.Now(), Location: centralPoint})
