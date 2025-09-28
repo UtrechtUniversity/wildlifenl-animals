@@ -8,7 +8,7 @@ RUN go mod download
 
 COPY . .
 
-RUN go build -o /app/animals main.go
+RUN go build -o /app/animals
 
 EXPOSE 8080
 
