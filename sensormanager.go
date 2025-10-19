@@ -28,8 +28,8 @@ func NewSensorManager(numberOfSensors int, api *WildlifeNLAPI) *SensorManager {
 func (m SensorManager) Update() error {
 	for _, s := range m.sensors {
 		s.Timestamp = time.Now()
-		latDelta := (float64(rand.Intn(7)-3) * .0001)
-		lonDelta := (float64(rand.Intn(7)-3) * .0001)
+		latDelta := (float64(rand.Intn(14)-6) * .0001)
+		lonDelta := (float64(rand.Intn(14)-6) * .0001)
 		s.Location.Latitude = math.Round((s.Location.Latitude+latDelta)*100000) / 100000
 		s.Location.Longitude = math.Round((s.Location.Longitude+lonDelta)*100000) / 100000
 		if err := m.api.SendReading(s); err != nil {
