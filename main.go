@@ -9,7 +9,9 @@ import (
 
 const addr = ":8080"
 
-var centralPoint = Point{Latitude: 52.088644, Longitude: 5.172076} // Botanische Tuinen
+// var centralPoint = Point{Latitude: 52.088644, Longitude: 5.172076} // Botanische Tuinen
+
+var centralPoint = Point{Latitude: 51.426091, Longitude: 5.482524} // Stadswandelpark Eindhoven
 
 func main() {
 	apiURL := os.Getenv("API_URL")
