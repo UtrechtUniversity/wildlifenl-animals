@@ -11,7 +11,9 @@ const addr = ":8080"
 
 // var centralPoint = Point{Latitude: 52.088644, Longitude: 5.172076} // Botanische Tuinen
 
-var centralPoint = Point{Latitude: 51.426091, Longitude: 5.482524} // Stadswandelpark Eindhoven
+// var centralPoint = Point{Latitude: 51.426091, Longitude: 5.482524} // Stadswandelpark Eindhoven
+
+var centralPoint = Point{Latitude: 51.700001, Longitude: 5.270122} // Gamr-Holding Office Den Bosch
 
 func main() {
 	apiURL := os.Getenv("API_URL")
