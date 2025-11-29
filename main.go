@@ -9,11 +9,7 @@ import (
 
 const addr = ":8080"
 
-// var centralPoint = Point{Latitude: 52.088644, Longitude: 5.172076} // Botanische Tuinen
-
-var centralPoint = Point{Latitude: 51.426091, Longitude: 5.482524} // Stadswandelpark Eindhoven
-
-//var centralPoint = Point{Latitude: 51.700001, Longitude: 5.270122} // Gamr-Holding Office Den Bosch
+var centroid Point
 
 func main() {
 	apiURL := os.Getenv("API_URL")
@@ -46,6 +42,26 @@ func main() {
 	if numberOfSensors < 1 || numberOfSensors > 99 {
 		log.Fatal("Environment variable NUM_SENSORS must be 0 < x < 100.")
 	}
+
+	centroidLatitudeValue := os.Getenv("CENTROID_LATITUDE")
+	if centroidLatitudeValue == "" {
+		log.Fatal("environment variable CENTROID_LATITUDE cannot be empty")
+	}
+	centroidLatitude, err := strconv.ParseFloat(centroidLatitudeValue, 64)
+	if err != nil {
+		log.Fatal("cannot convert environment variable CENTROID_LATITUDE to float:", err)
+	}
+
+	centroidLongitudeValue := os.Getenv("CENTROID_LONGITUDE")
+	if centroidLongitudeValue == "" {
+		log.Fatal("environment variable CENTROID_LONGITUDE cannot be empty")
+	}
+	centroidLongitude, err := strconv.ParseFloat(centroidLongitudeValue, 64)
+	if err != nil {
+		log.Fatal("cannot convert environment variable CENTROID_LONGITUDE to float:", err)
+	}
+
+	centroid = Point{Latitude: centroidLatitude, Longitude: centroidLongitude}
 
 	api := NewWildlifeNLAPI(apiURL, token)
 	go func() {

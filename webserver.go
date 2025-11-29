@@ -38,7 +38,7 @@ func (s *WebServer) rootHandler(w http.ResponseWriter, r *http.Request) {
 		<div id="map"></div>
 		<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 		<script>
-		const map = L.map('map').setView([` + centralPoint.Location() + `], 18);
+		const map = L.map('map').setView([` + centroid.Location() + `], 18);
 		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', maxZoom: 19}).addTo(map);
 		fetch('/animals')
 		.then(response => {

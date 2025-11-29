@@ -20,7 +20,7 @@ func NewSensorManager(numberOfSensors int, api *WildlifeNLAPI) *SensorManager {
 		if i < 10 {
 			number = "0" + number
 		}
-		sensors = append(sensors, Sensor{ID: "Sim-Sensor-" + number, Timestamp: time.Now(), Location: centralPoint})
+		sensors = append(sensors, Sensor{ID: "Sim-Sensor-" + number, Timestamp: time.Now(), Location: centroid})
 	}
 	return &SensorManager{api: api, sensors: sensors}
 }
