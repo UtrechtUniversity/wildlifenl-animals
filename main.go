@@ -7,9 +7,8 @@ import (
 	"time"
 )
 
-const addr = ":8080"
-
-var centroid Point
+var sensorManager *SensorManager
+var detectionManager *DetectionManager
 
 func main() {
 	apiURL := os.Getenv("API_URL")
@@ -61,19 +60,27 @@ func main() {
 		log.Fatal("cannot convert environment variable CENTROID_LONGITUDE to float:", err)
 	}
 
-	centroid = Point{Latitude: centroidLatitude, Longitude: centroidLongitude}
+	centroid := Point{Latitude: centroidLatitude, Longitude: centroidLongitude}
 
 	api := NewWildlifeNLAPI(apiURL, token)
-	go func() {
-		webServer := NewWebServer(addr, api)
-		log.Println(webServer.ListenAndServe())
-	}()
+	sensorManager = NewSensorManager(centroid, numberOfSensors, api)
+	species, err := api.GetSpecies()
+	if err != nil {
+		log.Fatal("cannot get species from api:", err)
+	}
+	detectionManager = NewDetectionManager(centroid, species, api)
 
-	sensorManager := NewSensorManager(numberOfSensors, api)
-	tick := time.Tick(time.Duration(interval) * time.Minute)
-	for range tick {
-		if err := sensorManager.Update(); err != nil {
-			log.Print("ERROR: could not update sensors:", err)
-		}
+	update()
+	for range time.Tick(time.Duration(interval) * time.Minute) {
+		update()
+	}
+}
+
+func update() {
+	//if err := sensorManager.Update(); err != nil {
+	//	log.Println("ERROR: could not update sensors:", err)
+	//}
+	if err := detectionManager.Update(); err != nil {
+		log.Println("ERROR: could not update detections:", err)
 	}
 }

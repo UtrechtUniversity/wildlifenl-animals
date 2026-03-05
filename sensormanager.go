@@ -13,7 +13,7 @@ type SensorManager struct {
 	sensors []Sensor
 }
 
-func NewSensorManager(numberOfSensors int, api *WildlifeNLAPI) *SensorManager {
+func NewSensorManager(centroid Point, numberOfSensors int, api *WildlifeNLAPI) *SensorManager {
 	sensors := make([]Sensor, 0)
 	for i := 1; i <= numberOfSensors; i++ {
 		number := strconv.Itoa(i)
