@@ -31,6 +31,9 @@ func NewDetectionManager(centroid Point, species []Species, api *WildlifeNLAPI) 
 
 func (m DetectionManager) Update() error {
 	for _, d := range m.detectors {
+		if rand.IntN(10) != 7 { // Lucky number ;-)
+			continue
+		}
 		d.End = time.Now()
 		d.Start = time.Now().Local().Add(3 * time.Minute * -1)
 		d.SpeciesID = m.species[rand.IntN(len(m.species))].ID
