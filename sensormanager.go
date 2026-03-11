@@ -1,8 +1,6 @@
 package main
 
 import (
-	"log"
-	"math"
 	"math/rand"
 	"strconv"
 	"time"
@@ -27,15 +25,16 @@ func NewSensorManager(centroid Point, numberOfSensors int, api *WildlifeNLAPI) *
 
 func (m SensorManager) Update() error {
 	for _, s := range m.sensors {
-		s.Timestamp = time.Now()
-		latDelta := (float64(rand.Intn(14)-6) * .0001)
-		lonDelta := (float64(rand.Intn(14)-6) * .0001)
-		s.Location.Latitude = math.Round((s.Location.Latitude+latDelta)*100000) / 100000
-		s.Location.Longitude = math.Round((s.Location.Longitude+lonDelta)*100000) / 100000
+		now := time.Now()
+		if now.Hour() > 21 || now.Hour() < 7 {
+			continue
+		}
+		s.Timestamp = now
+		s.Location.Latitude += (float64(rand.Intn(13)-6) * .00003)
+		s.Location.Longitude += (float64(rand.Intn(13)-6) * .00003)
 		if err := m.api.SendReading(s); err != nil {
 			return err
 		}
-		log.Print("Updated sensor:", s, "DELTA:", latDelta, lonDelta)
 	}
 	return nil
 }

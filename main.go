@@ -77,9 +77,9 @@ func main() {
 }
 
 func update() {
-	//if err := sensorManager.Update(); err != nil {
-	//	log.Println("ERROR: could not update sensors:", err)
-	//}
+	if err := sensorManager.Update(); err != nil {
+		log.Println("ERROR: could not update sensors:", err)
+	}
 	if err := detectionManager.Update(); err != nil {
 		log.Println("ERROR: could not update detections:", err)
 	}
