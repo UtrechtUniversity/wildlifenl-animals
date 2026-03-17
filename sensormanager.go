@@ -32,8 +32,8 @@ func (m SensorManager) Update() error {
 		s.Timestamp = now
 		step := rand.Intn(22) + 10
 		cor := int(step / 2)
-		s.Location.Latitude += (float64(rand.Intn(step)-cor) * .0001)
-		s.Location.Longitude += (float64(rand.Intn(step)-cor) * .0001)
+		s.Location.Latitude += (float64(rand.Intn(step)-cor) * .00017)
+		s.Location.Longitude += (float64(rand.Intn(step)-cor) * .00017)
 		if err := m.api.SendReading(s); err != nil {
 			return err
 		}
